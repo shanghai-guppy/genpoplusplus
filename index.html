@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <meta name="title" content="GenPO++: Generative Policy Optimization with Jacobian-free Likelihood Ratios">
+  <meta name="description" content="GenPO++ uses a reversible flow-policy solver to compute exact, Jacobian-free likelihood ratios for on-policy reinforcement learning.">
+  <meta name="keywords" content="GenPO++, generative policy optimization, reinforcement learning, flow policy, robotics">
+  <meta name="author" content="Ke Hu, Shutong Ding, Panxin Tao, Jingya Wang, Ye Shi">
+  <meta name="robots" content="index, follow">
+  <meta name="language" content="English">
+
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="ShanghaiTech University">
+  <meta property="og:title" content="GenPO++: Generative Policy Optimization with Jacobian-free Likelihood Ratios">
+  <meta property="og:description" content="A reversible generative policy optimization framework for exact, Jacobian-free likelihood-ratio computation.">
+  <meta property="og:url" content="./">
+  <meta property="og:image" content="static/images/favicon.svg">
+  <meta property="og:image:alt" content="GenPO++ project preview">
+  <meta property="article:published_time" content="2026-05-12T00:00:00.000Z">
+  <meta property="article:author" content="Ke Hu, Shutong Ding, Panxin Tao, Jingya Wang, Ye Shi">
+  <meta property="article:section" content="Research">
+  <meta property="article:tag" content="Reinforcement Learning">
+  <meta property="article:tag" content="Generative Policies">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="GenPO++: Generative Policy Optimization with Jacobian-free Likelihood Ratios">
+  <meta name="twitter:description" content="Exact, Jacobian-free likelihood-ratio optimization for reversible generative policies.">
+  <meta name="twitter:image" content="static/images/favicon.svg">
+  <meta name="twitter:image:alt" content="GenPO++ project preview">
+
+  <meta name="citation_title" content="GenPO++: Generative Policy Optimization with Jacobian-free Likelihood Ratios">
+  <meta name="citation_author" content="Ke Hu">
+  <meta name="citation_author" content="Shutong Ding">
+  <meta name="citation_author" content="Panxin Tao">
+  <meta name="citation_author" content="Jingya Wang">
+  <meta name="citation_author" content="Ye Shi">
+  <meta name="citation_publication_date" content="2026">
+
+  <meta name="theme-color" content="#155e75">
+  <meta name="msapplication-TileColor" content="#155e75">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <title>GenPO++: Generative Policy Optimization with Jacobian-free Likelihood Ratios</title>
+
+  <link rel="icon" type="image/svg+xml" href="static/images/favicon.svg">
+  <link rel="apple-touch-icon" href="static/images/favicon.svg">
+  <link rel="stylesheet" href="static/css/bulma.min.css">
+  <link rel="stylesheet" href="static/css/index.css">
+  <link rel="preload" href="static/css/fontawesome.all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript>
+    <link rel="stylesheet" href="static/css/fontawesome.all.min.css">
+  </noscript>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script defer src="static/js/fontawesome.all.min.js"></script>
+  <script defer src="static/js/index.js"></script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ScholarlyArticle",
+    "headline": "GenPO++: Generative Policy Optimization with Jacobian-free Likelihood Ratios",
+    "description": "GenPO++ uses history states in a reversible high-order flow-policy solver to compute exact, Jacobian-free likelihood ratios for on-policy reinforcement learning.",
+    "author": [
+      {
+        "@type": "Person",
+        "name": "Ke Hu",
+        "affiliation": [
+          {"@type": "Organization", "name": "ShanghaiTech University"},
+          {"@type": "Organization", "name": "InstAdapt"}
+        ]
+      },
+      {
+        "@type": "Person",
+        "name": "Shutong Ding",
+        "affiliation": [
+          {"@type": "Organization", "name": "ShanghaiTech University"},
+          {"@type": "Organization", "name": "InstAdapt"}
+        ]
+      },
+      {"@type": "Person", "name": "Panxin Tao"},
+      {"@type": "Person", "name": "Jingya Wang"},
+      {
+        "@type": "Person",
+        "name": "Ye Shi",
+        "affiliation": [
+          {"@type": "Organization", "name": "ShanghaiTech University"},
+          {"@type": "Organization", "name": "InstAdapt"}
+        ]
+      }
+    ],
+    "datePublished": "2026-05-12",
+    "publisher": {"@type": "Organization", "name": "ShanghaiTech University"},
+    "keywords": ["generative policy optimization", "reinforcement learning", "flow policy", "robotics"],
+    "isAccessibleForFree": true
+  }
+  </script>
+</head>
+<body>
+  <button class="scroll-to-top" onclick="scrollToTop()" title="Scroll to top" aria-label="Scroll to top">
+    <i class="fas fa-chevron-up"></i>
+  </button>
+
+  <main id="main-content">
+    <section class="hero publication-header">
+      <div class="hero-body">
+        <div class="container is-max-desktop">
+          <div class="columns is-centered">
+            <div class="column has-text-centered">
+              <p class="paper-kicker">Generative Policy Optimization</p>
+              <h1 class="title is-1 publication-title"><span class="title-highlight">GenPO++</span>:<br>Generative Policy Optimization with Jacobian-free Likelihood Ratios</h1>
+              <div class="is-size-5 publication-authors">
+                <span class="author-block">Ke Hu<sup>1,2,*</sup></span>
+                <span class="author-block">Shutong Ding<sup>1,2,*</sup></span>
+                <span class="author-block">Panxin Tao<sup>1</sup></span>
+                <span class="author-block">Jingya Wang<sup>1</sup></span>
+                <span class="author-block">Ye Shi<sup>1,2,&dagger;</sup></span>
+              </div>
+              <div class="is-size-6 publication-affiliations">
+                <span class="affiliation-block"><sup>1</sup> ShanghaiTech University</span>
+                <span class="affiliation-block"><sup>2</sup> InstAdapt</span>
+              </div>
+              <div class="author-emails">
+                {huke2024, dingsht, taopx2022}@shanghaitech.edu.cn<br>
+                {wangjingya, shiye}@shanghaitech.edu.cn
+              </div>
+              <div class="author-notes">
+                <span><sup>*</sup> Equal contribution</span>
+                <span><sup>&dagger;</sup> Corresponding author</span>
+              </div>
+
+              <div class="column has-text-centered">
+                <div class="publication-links">
+                  <span class="link-block">
+                    <span class="external-link button is-normal is-rounded is-dark coming-soon-button" aria-disabled="true">
+                      <span class="icon"><i class="fas fa-clock"></i></span>
+                      <span>Paper and Code Coming Soon</span>
+                    </span>
+                  </span>
+                  <span class="link-block">
+                    <a href="#pipeline" class="external-link button is-normal is-rounded is-dark">
+                      <span class="icon"><i class="fas fa-project-diagram"></i></span>
+                      <span>Pipeline</span>
+                    </a>
+                  </span>
+                  <span class="link-block">
+                    <a href="#experiments" class="external-link button is-normal is-rounded is-dark">
+                      <span class="icon"><i class="fas fa-play-circle"></i></span>
+                      <span>Videos</span>
+                    </a>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="hero teaser pipeline-section" id="pipeline">
+      <div class="container is-max-desktop">
+        <div class="hero-body">
+          <h2 class="title is-3 has-text-centered">Pipeline</h2>
+          <div class="pipeline-viewer" aria-label="GenPO++ pipeline diagram">
+            <img src="static/images/pipeline.png" alt="GenPO++ pipeline diagram" loading="eager">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section overview-video-section" id="overview-video">
+      <div class="container is-max-desktop">
+        <h2 class="title is-3 has-text-centered">Overview Video</h2>
+        <div class="overview-video-frame">
+          <video controls playsinline preload="metadata">
+            <source src="genpo++.mp4" type="video/mp4">
+          </video>
+        </div>
+      </div>
+    </section>
+
+    <section class="section hero is-light">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered has-text-centered">
+          <div class="column is-four-fifths">
+            <h2 class="title is-3">Abstract</h2>
+            <div class="content has-text-justified">
+              <p>
+                Generative policies provide expressive and multimodal action distributions, making them attractive for reinforcement learning (RL) in complex continuous-control tasks. Among them, flow-based policies are especially appealing because they generate actions through deterministic transport maps. However, applying such generative policies to likelihood-based on-policy learning remains limited by the difficulty of evaluating the probability of executed actions. Existing flow RL methods either replace the true action-density ratio with approximate surrogates, which can introduce biased updates, or recover exact likelihoods through dummy-action augmentation, which enlarges the policy space and increases computation. In this work, we propose <strong class="title-highlight">GenPO++</strong>, a reversible generative policy optimization framework that uses history states as auxiliary memory in a high-order reversible ODE solver, yielding exact inversion without changing the original action dimension. The resulting generative policy map has a log-determinant determined only by fixed solver coefficients, enabling exact and Jacobian-free likelihood-ratio computation. This design preserves the expressiveness of generative flow policies while avoiding both action ratio bias and dummy-action overhead. We evaluate <strong class="title-highlight">GenPO++</strong> on large-scale simulated control, fine-tuning, and real-world robotic manipulation tasks, where it achieves competitive or superior performance over state-of-the-art on-policy RL methods, while improving training stability and computational efficiency.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section hero is-light" id="experiments">
+      <div class="container">
+        <h2 class="title is-3 has-text-centered">Experiment Videos</h2>
+        <p class="section-lead has-text-centered">
+          Videos are ordered as in the experiments: IsaacLab benchmarks, RoboMimic fine-tuning tasks, then real-world hand manipulation.
+        </p>
+
+        <div class="experiment-group">
+          <div class="experiment-heading">
+            <span class="experiment-index">1</span>
+            <div>
+              <h3>IsaacLab Benchmarks</h3>
+              <p>Eight simulated control tasks covering locomotion, manipulation, and whole-body control.</p>
+            </div>
+          </div>
+          <div class="isaac-carousel" data-carousel="isaaclab">
+            <button class="carousel-arrow carousel-arrow-left" type="button" data-carousel-prev aria-label="Previous IsaacLab video">
+              <i class="fas fa-chevron-left"></i>
+            </button>
+            <div class="isaac-slides">
+              <article class="video-card isaac-slide is-active">
+                <div class="video-frame">
+                  <video autoplay muted loop playsinline preload="auto">
+                    <source src="isaaclab/ant/videos/play/rl-video-step-0.mp4" type="video/mp4">
+                  </video>
+                </div>
+                <h4>Ant</h4>
+                <p>Isaac-Ant-v0</p>
+              </article>
+              <article class="video-card isaac-slide">
+                <div class="video-frame">
+                  <video autoplay muted loop playsinline preload="auto">
+                    <source src="isaaclab/humanoid/videos/play/humanoid.mp4" type="video/mp4">
+                  </video>
+                </div>
+                <h4>Humanoid</h4>
+                <p>Isaac-Humanoid-v0</p>
+              </article>
+              <article class="video-card isaac-slide">
+                <div class="video-frame">
+                  <video autoplay muted loop playsinline preload="auto">
+                    <source src="isaaclab/opendrawer/videos/play/rl-video-step-0.mp4" type="video/mp4">
+                  </video>
+                </div>
+                <h4>Open-Drawer</h4>
+                <p>Isaac-Open-Drawer-Franka-v0</p>
+              </article>
+              <article class="video-card isaac-slide">
+                <div class="video-frame">
+                  <video autoplay muted loop playsinline preload="auto">
+                    <source src="isaaclab/anymal-d/videos/play/rl-video-step-0.mp4" type="video/mp4">
+                  </video>
+                </div>
+                <h4>ANYmal-D-Rough</h4>
+                <p>Isaac-Velocity-Rough-ANYmal-D-v0</p>
+              </article>
+              <article class="video-card isaac-slide">
+                <div class="video-frame">
+                  <video autoplay muted loop playsinline preload="auto">
+                    <source src="isaaclab/go2/videos/play/rl-video-step-0.mp4" type="video/mp4">
+                  </video>
+                </div>
+                <h4>Go2-Rough</h4>
+                <p>Isaac-Velocity-Rough-Unitree-Go2-v0</p>
+              </article>
+              <article class="video-card isaac-slide">
+                <div class="video-frame">
+                  <video autoplay muted loop playsinline preload="auto">
+                    <source src="isaaclab/g1/videos/play/rl-video-step-0.mp4" type="video/mp4">
+                  </video>
+                </div>
+                <h4>G1-Rough</h4>
+                <p>Isaac-Velocity-Rough-G1-v0</p>
+              </article>
+              <article class="video-card isaac-slide">
+                <div class="video-frame">
+                  <video autoplay muted loop playsinline preload="auto">
+                    <source src="isaaclab/h1/videos/play/rl-video-step-0.mp4" type="video/mp4">
+                  </video>
+                </div>
+                <h4>H1-Rough</h4>
+                <p>Isaac-Velocity-Rough-H1-v0</p>
+              </article>
+              <article class="video-card isaac-slide">
+                <div class="video-frame">
+                  <video autoplay muted loop playsinline preload="auto">
+                    <source src="isaaclab/digit/videos/play/rl-video-step-0.mp4" type="video/mp4">
+                  </video>
+                </div>
+                <h4>Digit-LocoManip</h4>
+                <p>Isaac-Tracking-LocoManip-Digit-v0</p>
+              </article>
+            </div>
+            <button class="carousel-arrow carousel-arrow-right" type="button" data-carousel-next aria-label="Next IsaacLab video">
+              <i class="fas fa-chevron-right"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="experiment-group">
+          <div class="experiment-heading">
+            <span class="experiment-index">2</span>
+            <div>
+              <h3>RoboMimic Fine-Tuning</h3>
+              <p>Pretrained flow-matching manipulation policies fine-tuned online.</p>
+            </div>
+          </div>
+          <div class="video-grid video-grid-three">
+            <article class="video-card">
+              <div class="video-frame is-four-three">
+                <video autoplay muted loop playsinline preload="auto">
+                  <source src="robomimic/best_eval_zero_sampling_step_5017600.mp4" type="video/mp4">
+                </video>
+              </div>
+              <h4>Can</h4>
+              <p>Single-arm object manipulation.</p>
+            </article>
+            <article class="video-card">
+              <div class="video-frame is-four-three">
+                <video autoplay muted loop playsinline preload="auto">
+                  <source src="robomimic/best_eval_zero_sampling_step_512000.mp4" type="video/mp4">
+                </video>
+              </div>
+              <h4>Box Cleanup</h4>
+              <p>Dual-arm object rearrangement.</p>
+            </article>
+            <article class="video-card">
+              <div class="video-frame is-four-three">
+                <video autoplay muted loop playsinline preload="auto">
+                  <source src="robomimic/best_eval_zero_sampling_step_6860800.mp4" type="video/mp4">
+                </video>
+              </div>
+              <h4>Threading</h4>
+              <p>Long-horizon precision insertion.</p>
+            </article>
+          </div>
+        </div>
+
+        <div class="experiment-group">
+          <div class="experiment-heading">
+            <span class="experiment-index">3</span>
+            <div>
+              <h3>Real-World Hand Manipulation</h3>
+              <p>RobotEra XHand nut-bolt manipulation across different object geometries.</p>
+            </div>
+          </div>
+          <div class="video-grid video-grid-three">
+            <article class="video-card">
+              <div class="video-frame">
+                <video autoplay muted loop playsinline preload="auto">
+                  <source src="hand/red.mp4" type="video/mp4">
+                </video>
+              </div>
+              <h4>Red Nut-Bolt</h4>
+              <p>Real-world deployment.</p>
+            </article>
+            <article class="video-card">
+              <div class="video-frame">
+                <video autoplay muted loop playsinline preload="auto">
+                  <source src="hand/blue.mp4" type="video/mp4">
+                </video>
+              </div>
+              <h4>Blue Nut-Bolt</h4>
+              <p>Real-world deployment.</p>
+            </article>
+            <article class="video-card">
+              <div class="video-frame">
+                <video autoplay muted loop playsinline preload="auto">
+                  <source src="hand/yellow.mp4" type="video/mp4">
+                </video>
+              </div>
+              <h4>Yellow Nut-Bolt</h4>
+              <p>Real-world deployment.</p>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="columns is-centered">
+        <div class="column is-8">
+          <div class="content">
+            
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
